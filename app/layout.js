@@ -1,27 +1,43 @@
-import Logo from "./components/Logo";
-import Navigation from "./components/Navigation";
+import Logo from "@/app/_components/Logo";
+import Navigation from "@/app/_components/Navigation";
+import "@/app/_styles/globals.css";
+// Importing the Josefin Sans font from Google Fonts using the next/font/google module.
+import { Josefin_Sans } from "next/font/google";
+import Header from "./_components/Header";
 
+/*
+// The `Josefin_Sans` function is used to configure the font import with specific options.
+// - `subsets: ["latin"]`: This specifies that only the Latin subset of the font should be loaded.
+// - `display: "swap"`: This sets the font-display property to "swap", which improves loading performance
+//   by using a fallback font until the custom font loads, avoiding invisible text.
+*/
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+//meta data
 export const metadata = {
-  title: "The Wild Oasis",
+  title: {
+    template: "%s / The Wild Oasis",
+    default: "Welcome / The Wild Oasis",
+  },
+  description:
+    "Luxurious cabin hotel, located in the heart of the Italian Dolomites, surrounded by beautiful mountains and dark forests",
 };
 
+//RSC
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <Logo />
-        <Navigation />
-
-        <main>{children}</main>
-        <footer>Copyright by Shohag</footer>
+      <body
+        className={`${josefin.className} bg-primary-950 text-primary-100 min-h-screen flex flex-col`}
+      >
+        <Header />
+        <div className="flex-1 px-8 py-12 grid">
+          <main className="max-w-7xl mx-auto w-full">{children}</main>
+        </div>
       </body>
     </html>
   );
 }
-
-/*
-
-In Next.js, a layout component is a React component used to define a consistent structure or layout that can be shared across multiple pages of an application. Layout components typically include common elements like headers, footers, navigation bars, and sidebars, ensuring that these elements are present on every page where the layout is used.
-
-Using a layout component helps in maintaining a consistent look and feel across the application and reduces code duplication by centralizing common layout code.
-*/
